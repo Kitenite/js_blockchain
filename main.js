@@ -4,7 +4,7 @@ class Block {
     constructor(timestamp, data){
         this.index = 0;
         this.timestamp = timestamp;
-        this.data = 0;
+        this.data = data;
         this.previousHash = 0;
         this.hash = this.calculateHash();
         this.nonce = 0;
@@ -28,6 +28,7 @@ class Blockchain {
         return this.chain[this.chain.length -1]
     }
     addBlock(newBlock){
+        newBlock.index = this.latestBlock().index+1;
         newBlock.previousHash = this.latestBlock().hash;
         newBlock.hash = newBlock.calculateHash();
         this.chain.push(newBlock);
@@ -50,8 +51,8 @@ class Blockchain {
 }
 
 let jsChain = new Blockchain();
-jsChain.addBlock(new Block("7/28/2018", {amount:5}));
-jsChain.addBlock(new Block("7/29/2018", {amount:10}));
+jsChain.addBlock(new Block("7/28/2018", {amount: 5}));
+jsChain.addBlock(new Block("7/29/2018", {amount: 10}));
 
 console.log(JSON.stringify(jsChain, null, 4));
 console.log("Is Blockchain valid? "+ jsChain.checkValid());
